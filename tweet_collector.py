@@ -3,6 +3,7 @@ import os
 import random
 import tweepy
 import sys
+import json
 
 if len(sys.argv) < 3:
     print "Not enough arguments supplied. Format is \n$ python [script] [num] [outfile]"
@@ -18,7 +19,7 @@ class StreamListenerImpl(tweepy.StreamListener):
         self.collect_num -= 1
         if self.collect_num < 0:
             return False
-        self.output.write(data.replace('\n', '').strip())
+        self.output.write(json.dumps(data.replace('\n', '').strip()))
         return True
 
     def on_error(self, status):
