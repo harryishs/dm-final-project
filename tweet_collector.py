@@ -25,10 +25,14 @@ class StreamListenerImpl(tweepy.StreamListener):
         and tweet length from data"""
 
         # only get tweet if it's a retweet
-        if "retweeted_status" not in data or data["user"]["followers_count"] == 0:
+        if "retweeted_status" not in data:
             return None
 
         data = data["retweeted_status"]
+
+        if data["user"]["followers_count"] == 0:
+            return None
+
         output = []
         text = data["text"]
 
@@ -39,20 +43,22 @@ class StreamListenerImpl(tweepy.StreamListener):
         output.append(numpy.mean([s.sentiment.polarity for s in TextBlob(text).sentences]))
 
         # append # of hashtags
-        if "indices" in data["entities"]["hashtags"]:
-            output.append(int(len(data["entities"]["hashtags"]["indices"])/2))
-        else:
-            output.append(0)
+        output.append(len(data["entities"]["hashtags"]))
 
         # append whether or not link exists
-        output.append(True if data["entities"] else False)
+        output.append(True if data["entities"]["urls"] else False)
+
+        # append favorite count
+        output.append(data["retweet_count"])
 
         # append tweet length
         output.append(len(text))
 
+        # append user is verified
+        output.append(data["user"]["verified"])
+
         # append RT/Follower ration
-        print data["user"]["followers_count"]
-        output.append(float(data["retweet_count"])/float(data["user"]["followers_count"]))
+        output.append(float(data["favorite_count"])/float(data["user"]["followers_count"]))
 
         return output
 
