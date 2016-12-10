@@ -8,14 +8,14 @@ trX, trY, teX, teY = load_project_data()
 
 # Parameters
 learning_rate = 0.5
-training_epochs = 100
+training_epochs = 2000
 batch_size = 100
 display_step = 1
 
 # Network Parameters
 n_input = 7
 n_output = 1
-layers = [n_input, 512, 512, 256, 128, n_output]
+layers = [n_input, 512, 512, 355, 400, 256, 655, 322, 202, 128, n_output]
 
 # tf Graph input
 x = tf.placeholder("float", [None, n_input])
