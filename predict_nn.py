@@ -10,7 +10,7 @@ data_y = map(lambda r: [r[-1]], data_set)
 mid_pt = len(data_set)/2
 trX, trY, teX, teY = np.array(data_x[:mid_pt]), np.array(data_y[:mid_pt]), np.array(data_x[mid_pt:]), np.array(data_y[mid_pt:])
 
-print trX.shape, trY.shape, teX.shape, teY.shape
+print (trX.shape, trY.shape, teX.shape, teY.shape)
 
 def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
